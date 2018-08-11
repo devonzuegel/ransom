@@ -1,0 +1,5 @@
+{
+  "watch": ["server/**/*.ts"],
+  "ignore": ["server/**/*.test.ts"],
+  "exec": "PORT=3001 ./node_modules/.bin/ts-node server"
+}
