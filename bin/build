@@ -5,8 +5,11 @@ source './bin/shared/strict-mode.sh'
 # Create build dir if doesn't exist
 mkdir -p build
 
-# Copy client files into build
-cp -rf client/ build/client
+# Compile frontend
+cd client
+yarn install
+yarn run build
+cd ..
 
 # Build the server
 ./node_modules/.bin/tsc -P tsconfig.server.json
