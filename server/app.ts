@@ -1,6 +1,7 @@
+import * as express from 'express'
+import * as path from 'path'
+
 var createError = require('http-errors')
-var express = require('express')
-var path = require('path')
 var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 
@@ -10,14 +11,14 @@ var usersRouter = require('./routes/users')
 var app = express()
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, './../client/views'))
 app.set('view engine', 'jade')
 
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, './../client/public')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
@@ -28,7 +29,12 @@ app.use(function(req, res, next) {
 })
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(
+  err: any,
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
   // set locals, only providing error in development
   res.locals.message = err.message
   res.locals.error = req.app.get('env') === 'development' ? err : {}

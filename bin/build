@@ -2,9 +2,14 @@
 
 source './bin/shared/strict-mode.sh'
 
-# Run server, watching for changes
-# You can find nodemon config in nodemon.jsons
-nodemon --watch 'server/**/*.ts' --ignore 'server/**/*.test.ts' --exec 'ts-node' server/index.ts
+# Create build dir if doesn't exist
+mkdir -p build
+
+# Copy client files into build
+cp -rf client/ build/client
+
+# Build the server
+./node_modules/.bin/tsc -P tsconfig.server.json
 
 # Wait for each job to finish. By calling wait for each job instead of
 # just using `wait`, we bubble up the exit code from each and fail this
