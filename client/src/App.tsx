@@ -1,10 +1,12 @@
-import * as React from 'react';
-import './App.css';
+import * as React from 'react'
+import * as http from './api/http'
+import './App.css'
 
-import logo from './logo.svg';
+import logo from './logo.svg'
 
-class App extends React.Component {
+class App extends React.Component<{}, {results: string[]}> {
   public render() {
+    http.get('/foo').then(r => console.log({r}))
     return (
       <div className="App">
         <header className="App-header">
@@ -15,8 +17,8 @@ class App extends React.Component {
           To get started, edit <code>src/App.tsx</code> and save to reload.
         </p>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
