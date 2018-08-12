@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "bin/start-prod",
-    "heroku-postbuild": "bin/build"
+    "heroku-postbuild": "bin/build",
+    "start": "bin/start-prod"
   },
   "dependencies": {
     "@types/express": "^4.16.0",
