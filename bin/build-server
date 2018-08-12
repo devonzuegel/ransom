@@ -5,8 +5,8 @@ source './bin/shared/strict-mode.sh'
 # Create build dir if doesn't exist
 mkdir -p build
 
-bin/build-client
-bin/build-server
+# Build the server
+./node_modules/.bin/tsc -P tsconfig.server.json
 
 # Wait for each job to finish. By calling wait for each job instead of
 # just using `wait`, we bubble up the exit code from each and fail this

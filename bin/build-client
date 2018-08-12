@@ -5,8 +5,11 @@ source './bin/shared/strict-mode.sh'
 # Create build dir if doesn't exist
 mkdir -p build
 
-bin/build-client
-bin/build-server
+# Compile frontend
+cd client
+yarn install
+yarn run build
+cd ..
 
 # Wait for each job to finish. By calling wait for each job instead of
 # just using `wait`, we bubble up the exit code from each and fail this
