@@ -4,5 +4,5 @@
     "target": "es6",
     "outDir": "build/server"
   },
-  "exclude": ["client"]
+  "include": ["server"] // Compile only server/ dir
 }

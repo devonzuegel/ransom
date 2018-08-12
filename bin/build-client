@@ -2,13 +2,16 @@
 
 source './bin/shared/strict-mode.sh'
 
-# Run server, watching for changes
-# You can find nodemon config in nodemon.json
-nodemon --watch 'server/**/*.ts' --ignore 'server/**/*.test.ts' --exec 'ts-node' server/index.ts &
+# Create build dir if doesn't exist
+mkdir -p build
 
-# Run the frontend
+# Compile frontend
 cd client
-yarn start
+yarn install
+yarn run build
+cd ..
+
+mv client/build build/client
 
 # Wait for each job to finish. By calling wait for each job instead of
 # just using `wait`, we bubble up the exit code from each and fail this
