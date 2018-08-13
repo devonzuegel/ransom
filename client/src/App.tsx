@@ -32,7 +32,7 @@ class App extends React.Component<{}, {note: string; user: any}> {
     return (
       <div className="App">
         <h3>Write or paste your note here</h3>
-        <textarea autoFocus={true} onChange={this.onNoteChange} />
+        <textarea autoFocus onChange={this.onNoteChange} />
         {!this.currentUser() && <button onClick={this.signup}>Sign up</button>}
         <button onClick={this.persistNote}>Submit note</button>
         {user && <Notes user={user} />}
