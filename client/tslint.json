@@ -1,6 +1,8 @@
 {
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "rules": {
+    "max-classes-per-file": false,
+    "jsx-boolean-value": false,
     "no-console": false
   },
   "linterOptions": {
