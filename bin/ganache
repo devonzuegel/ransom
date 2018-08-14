@@ -4,10 +4,10 @@ source './bin/shared/strict-mode.sh'
 
 # By using the same mnemonic, ganache-cli generates the same keys which means
 # our contracts deploy to the same addresses!
-export mnemonic="robot robot robot robot robot robot robot robot robot robot robot robot"
+# export mnemonic="robot robot robot robot robot robot robot robot robot robot robot robot"
 
 ./node_modules/.bin/ganache-cli \
-  --mnemonic "$mnemonic"        \
+  # --mnemonic "$mnemonic"        \
   --gasLimit 100000000          \
   --hostname 127.0.0.1      \
   --hostname localhost          \
