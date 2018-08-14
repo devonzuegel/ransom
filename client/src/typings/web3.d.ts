@@ -309,7 +309,8 @@ declare module 'web3' {
       node: string
       ethereum: string
       whisper: string
-      getNetwork(cd: (err: Error, networkId: string) => void): void
+      getNetwork: any
+      // getNetwork(cd: (err: Error, networkId: string) => void): void
       getNode(cd: (err: Error, nodeVersion: string) => void): void
       getEthereum(cd: (err: Error, ethereum: string) => void): void
       getWhisper(cd: (err: Error, whisper: string) => void): void

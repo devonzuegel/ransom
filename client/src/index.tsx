@@ -33,19 +33,12 @@ const Loading = () => <div>Loading</div>
 class PersistGate extends React.Component<{}, IPersistGateState> {
   public state: IPersistGateState = {rehydrating: true}
 
-  private ethereumInterval: NodeJS.Timer
-
   public componentDidMount() {
-    this.ethereumInterval = global.setInterval(this.pollForEthChange, 1000)
+    const newEthereum = new Ethereum(window.web3)
+    this.setState(() => ({ethereum: newEthereum}))
     persistStore(store, {blacklist: []}, () => {
       this.setState(() => ({rehydrating: false}))
     })
-  }
-
-  public componentWillUnmount() {
-    if (this.ethereumInterval) {
-      global.clearInterval(this.ethereumInterval)
-    }
   }
 
   public render() {
@@ -62,6 +55,10 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
     return (
       <Provider store={store}>
         <div>
+          <pre>
+            {this.state.ethereum &&
+              JSON.stringify(this.state.ethereum.currentNetwork(), null, 2)}
+          </pre>
           <pre>Hi!</pre>
           {/* <Pages
             ethereum={this.state.ethereum!}
@@ -70,18 +67,6 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
         </div>
       </Provider>
     )
-  }
-
-  private pollForEthChange = () => {
-    const newEthereum = new Ethereum(window.web3)
-    const currentEthereum = this.state.ethereum
-
-    if (
-      !currentEthereum ||
-      newEthereum.currentNetwork() !== currentEthereum.currentNetwork()
-    ) {
-      this.setState(() => ({ethereum: newEthereum}))
-    }
   }
 }
 
