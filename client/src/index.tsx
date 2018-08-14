@@ -25,7 +25,7 @@ interface IPersistGateState {
 declare global {
   /* tslint:disable:interface-name */
   interface Window {
-    web3: any
+    web3: Web3
   }
 }
 
@@ -35,23 +35,43 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
   public state: IPersistGateState = {rehydrating: true}
 
   public componentDidMount() {
-    const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-    // 'https://mainnet.infura.io/FE44zGZoLEQTXSTJ1XmS'
-    // const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-    console.log(web3)
-    console.log(web3.version.network)
-    console.log(web3.version)
-    console.log(web3.currentProvider.isMetaMask)
-    console.log(web3.currentProvider)
-    console.log(web3.net)
-    console.log(web3.eth.accounts[0])
-    web3.eth.getAccounts((err, accounts) => {
-      console.log(accounts)
-      console.log(JSON.stringify(accounts))
+    console.log({
+      currentProvider: window.web3.currentProvider,
+      'currentProvider.isMetaMask': window.web3.currentProvider.isMetaMask,
+      'eth.accounts': window.web3.eth.accounts,
+      net: window.web3.net,
     })
+    console.log(window.web3.personal && window.web3)
+    // let web3 = new Web3(
+    //   new Web3.providers.HttpProvider(
+    //     // (Web3 as any).givenProvider
+    //     // 'https://mainnet.infura.io/FE44zGZoLEQTXSTJ1XmS'
+    //   )
+    // )
+    // // 'https://mainnet.infura.io/FE44zGZoLEQTXSTJ1XmS'
+    // // const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+    // console.log(web3)
+    // console.log(web3.version.network)
+    // console.log(web3.version)
+    // console.log(web3.currentProvider.isMetaMask)
+    // console.log(web3.currentProvider)
+    // console.log(web3.net)
+    // console.log(web3.eth.accounts[0])
+    // if (typeof web3 !== 'undefined') {
+    //   console.log('Using web3 detected from external source like Metamask')
+    //   web3 = new Web3(web3.currentProvider)
+    // } else {
+    //   web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
+    // }
+
+    // web3.eth.getAccounts((err, accounts) => {
+    //   console.log(accounts)
+    //   console.log(JSON.stringify(accounts))
+    // })
+
     // console.log(web3.eth.getBalance(web3.eth.accounts[0]).toNumber())
 
-    // // const newEthereum = new Ethereum(window.web3)
+    // const newEthereum = new Ethereum(window.web3)
     // // this.setState(() => ({ethereum: newEthereum}))
     persistStore(store, {blacklist: []}, () => {
       this.setState(() => ({rehydrating: false}))
