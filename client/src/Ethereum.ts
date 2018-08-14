@@ -1,20 +1,20 @@
 import {get} from 'lodash'
 import * as Web3 from 'web3'
 /* tslint:disable:no-var-requires */
-const ProviderEngine = require('web3-provider-engine')
-const Web3Subprovider = require('web3-provider-engine/subproviders/web3')
+// const ProviderEngine = require('web3-provider-engine')
+// const Web3Subprovider = require('web3-provider-engine/subproviders/web3')
 
 class Ethereum {
   private web3: Web3
 
   constructor(private injectedWeb3: Web3) {
-    const engine = new ProviderEngine()
-    // only need custom engine to get tx callback
-    // engine.addProvider(new SendTransactionHookProvider(1, createPendingTx))
-    // engine.addProvider(new FiltersSubprovider())
-    engine.addProvider(new Web3Subprovider(injectedWeb3.currentProvider))
-    engine.start()
-    this.web3 = new Web3(engine)
+    // const engine = new ProviderEngine()
+    // // only need custom engine to get tx callback
+    // // engine.addProvider(new SendTransactionHookProvider(1, createPendingTx))
+    // // engine.addProvider(new FiltersSubprovider())
+    // engine.addProvider(new Web3Subprovider(injectedWeb3.currentProvider))
+    // engine.start()
+    this.web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
   }
   public isMetamaskActive = () =>
     get(this.injectedWeb3, 'currentProvider.isMetaMask') === true

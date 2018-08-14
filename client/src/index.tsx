@@ -13,12 +13,12 @@ import * as React from 'react'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 import {persistStore} from 'redux-persist'
-import {Ethereum} from './Ethereum'
+// // import {Ethereum} from './Ethereum'
 import store from './redux/store'
 
 interface IPersistGateState {
   rehydrating: boolean
-  ethereum?: Ethereum
+  // // ethereum?: Ethereum
 }
 
 declare global {
@@ -34,8 +34,8 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
   public state: IPersistGateState = {rehydrating: true}
 
   public componentDidMount() {
-    const newEthereum = new Ethereum(window.web3)
-    this.setState(() => ({ethereum: newEthereum}))
+    // // const newEthereum = new Ethereum(window.web3)
+    // // this.setState(() => ({ethereum: newEthereum}))
     persistStore(store, {blacklist: []}, () => {
       this.setState(() => ({rehydrating: false}))
     })
@@ -47,21 +47,21 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
       if (this.state.rehydrating) {
         return <Loading />
       }
-      if (!this.state.ethereum) {
-        return <Loading />
-      }
+      // if (!this.state.ethereum) {
+      // return <Loading />
+      // }
     }
 
     return (
       <Provider store={store}>
         <div>
-          <pre>
+          {/* <pre>
             {this.state.ethereum &&
               JSON.stringify(this.state.ethereum.currentNetwork(), null, 2)}
-          </pre>
+          </pre> */}
           <pre>Hi!</pre>
           {/* <Pages
-            ethereum={this.state.ethereum!}
+            // // ethereum={this.state.ethereum!}
             rehydrating={this.state.rehydrating}
           /> */}
         </div>
