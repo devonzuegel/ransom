@@ -24,17 +24,28 @@ export class Ethereum {
     return idNameMap[networkId] || 'Unknown Network'
   }
 
-  public firstAccount = async (): Promise<string | null> =>
-    (await this.accounts())[0] || null
-
+  public firstAccount = async (): Promise<string | null> => {
+    const account = (await this.accounts())[0]
+    return account || null
+  }
   private accounts = async (): Promise<string[]> =>
     new Promise((resolve: (value: string[]) => any, reject) => {
-      if (!this.isMetamaskActive() || !this.injectedWeb3) {
-        return resolve([])
+      if (!this.injectedWeb3 || !this.isMetamaskActive()) {
+        return reject('Metamask is not active')
       }
 
-      this.injectedWeb3.eth.getAccounts(
-        (error, accounts) => (error ? reject(error) : resolve(accounts))
-      )
+      this.injectedWeb3.eth.getAccounts((error, accounts) => {
+        if (error) {
+          return reject(error)
+        }
+        if (accounts.length === 0) {
+          console.warn(
+            'This should not occur. For Metamask to be open, it must have at',
+            'least one active account in the list.'
+          )
+          return reject('No accounts found')
+        }
+        return resolve(accounts)
+      })
     })
 }

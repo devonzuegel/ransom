@@ -41,7 +41,6 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
       this.setState(() => ({ethereum}))
       ethereum.firstAccount().then(account => this.setState(() => ({account})))
     }
-    // this.ethereumInterval = global.setInterval(this.pollForEthChange, 1000)
     persistStore(store, {blacklist: []}, () => {
       this.setState(() => ({rehydrating: false}))
     })
