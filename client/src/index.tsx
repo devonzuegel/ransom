@@ -1,104 +1,78 @@
-// import * as React from 'react';
-// import * as ReactDOM from 'react-dom';
-// import App from './App';
-// import './index.css';
-
-// ReactDOM.render(
-//   <App />,
-//   document.getElementById('root') as HTMLElement
-// );
-
-// import Loading from '@client/components/Loading'
 import * as React from 'react'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 import {persistStore} from 'redux-persist'
 import * as Web3 from 'web3'
-// // import {Ethereum} from './Ethereum'
+import App from './App'
+import {Ethereum} from './Ethereum'
+import './index.css'
 import store from './redux/store'
 
 interface IPersistGateState {
+  account?: string | null
   rehydrating: boolean
-  // // ethereum?: Ethereum
+  networkName?: string
+  ethereum?: Ethereum
 }
 
 declare global {
   /* tslint:disable:interface-name */
   interface Window {
-    web3: Web3
+    web3?: Web3
   }
 }
 
 const Loading = () => <div>Loading</div>
 
+const MetamaskLocked = () => <div>Please unlock Metamask</div>
+
 class PersistGate extends React.Component<{}, IPersistGateState> {
-  public state: IPersistGateState = {rehydrating: true}
+  public state: IPersistGateState = {
+    account: undefined,
+    ethereum: undefined,
+    networkName: undefined,
+    rehydrating: false,
+  }
 
-  public componentDidMount() {
-    console.log({
-      currentProvider: window.web3.currentProvider,
-      'currentProvider.isMetaMask': window.web3.currentProvider.isMetaMask,
-      'eth.accounts': window.web3.eth.accounts,
-      net: window.web3.net,
-    })
-    console.log(window.web3.personal && window.web3)
-    // let web3 = new Web3(
-    //   new Web3.providers.HttpProvider(
-    //     // (Web3 as any).givenProvider
-    //     // 'https://mainnet.infura.io/FE44zGZoLEQTXSTJ1XmS'
-    //   )
-    // )
-    // // 'https://mainnet.infura.io/FE44zGZoLEQTXSTJ1XmS'
-    // // const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-    // console.log(web3)
-    // console.log(web3.version.network)
-    // console.log(web3.version)
-    // console.log(web3.currentProvider.isMetaMask)
-    // console.log(web3.currentProvider)
-    // console.log(web3.net)
-    // console.log(web3.eth.accounts[0])
-    // if (typeof web3 !== 'undefined') {
-    //   console.log('Using web3 detected from external source like Metamask')
-    //   web3 = new Web3(web3.currentProvider)
-    // } else {
-    //   web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'))
-    // }
-
-    // web3.eth.getAccounts((err, accounts) => {
-    //   console.log(accounts)
-    //   console.log(JSON.stringify(accounts))
-    // })
-
-    // console.log(web3.eth.getBalance(web3.eth.accounts[0]).toNumber())
-
-    // const newEthereum = new Ethereum(window.web3)
-    // // this.setState(() => ({ethereum: newEthereum}))
+  public async componentWillMount() {
+    const web3 = window.web3
+    if (web3 !== undefined) {
+      const ethereum = new Ethereum(web3)
+      this.setState(() => ({ethereum}))
+      ethereum.firstAccount().then(account => this.setState(() => ({account})))
+    }
+    // this.ethereumInterval = global.setInterval(this.pollForEthChange, 1000)
     persistStore(store, {blacklist: []}, () => {
       this.setState(() => ({rehydrating: false}))
     })
   }
 
   public render() {
-    // Only wait for loading to happen on app pages
-    if (window.location.pathname.startsWith('/app')) {
-      if (this.state.rehydrating) {
-        return <Loading />
-      }
-      // if (!this.state.ethereum) {
-      // return <Loading />
-      // }
+    if (this.state.rehydrating) {
+      return <Loading />
+    }
+    if (!this.state.ethereum || !this.state.ethereum.isMetamaskActive()) {
+      return <div>Please install Metamask</div>
+    }
+    if (this.state.account === undefined) {
+      console.warn('Metamask should not be open without an account open')
+      return <Loading />
     }
 
+    if (this.state.account === null) {
+      return <MetamaskLocked />
+    }
     return (
       <Provider store={store}>
         <div>
-          {/* <pre>
+          <div>signed in as: {this.state.account}</div>
+          <pre>
             {this.state.ethereum &&
               JSON.stringify(this.state.ethereum.currentNetwork(), null, 2)}
-          </pre> */}
-          <pre>Hi!</pre>
+          </pre>
+          <App />
           {/* <Pages
-            // // ethereum={this.state.ethereum!}
+            ethereum={this.web3!}
             rehydrating={this.state.rehydrating}
           /> */}
         </div>
