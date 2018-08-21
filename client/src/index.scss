@@ -1,0 +1,10 @@
+// Define variables to override default ones
+$primary-color: #367da2;
+$dark-color: #424241;
+
+// Import full Spectre source code
+@import 'node_modules/spectre.css/src/spectre';
+
+.container {
+  max-width: 1100px;
+}
