@@ -9,9 +9,9 @@ class Notes extends React.Component<{user: IPerson}> {
     return (
       this.props.user && (
         <div>
-          {this.props.user.notes.map(note => (
-            <div>
-              <div className="date">
+          {this.props.user.notes.map((note, i) => (
+            <div key={i}>
+              <div className="label">
                 {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
               </div>
               <p>{note.content}</p>
@@ -68,7 +68,6 @@ class App extends React.Component<{}, {note: string; user: any}> {
           </div>
           <div className="column col-6">
             {user && <Notes user={user} />}
-            <hr className="divider" />
             <pre style={{textAlign: 'left'}}>
               {JSON.stringify({person: getPersonInStorage(address)}, null, 2)}
             </pre>
