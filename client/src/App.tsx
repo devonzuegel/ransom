@@ -1,7 +1,6 @@
 import * as DateFns from 'date-fns'
 import * as React from 'react'
 import {clearUser, getPersonInStorage, IPerson, setPersonInStorage} from './api'
-import './App.css'
 
 const address = 'devon'
 
@@ -12,9 +11,9 @@ class Notes extends React.Component<{user: IPerson}> {
         <div>
           {this.props.user.notes.map(note => (
             <div>
-              <h2>
+              <div className="date">
                 {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
-              </h2>
+              </div>
               <p>{note.content}</p>
             </div>
           ))}
@@ -30,17 +29,50 @@ class App extends React.Component<{}, {note: string; user: any}> {
   public render() {
     const user = this.currentUser()
     return (
-      <div className="App">
-        <h3>Write or paste your note here</h3>
-        <textarea autoFocus onChange={this.onNoteChange} />
-        {!this.currentUser() && <button onClick={this.signup}>Sign up</button>}
-        <button onClick={this.persistNote}>Submit note</button>
-        {user && <Notes user={user} />}
-        <button onClick={this.clearStorage}>Clear storage</button>
-        <hr />
-        <pre style={{textAlign: 'left'}}>
-          {JSON.stringify({person: getPersonInStorage(address)}, null, 2)}
-        </pre>
+      <div className="container">
+        <header className="navbar">
+          <section className="navbar-section">
+            <span className="label label-rounded">Ransom</span>
+          </section>
+          <section className="navbar-section">
+            <button className="btn btn-sm btn-primary" onClick={this.clearStorage}>
+              Clear storage
+            </button>
+          </section>
+        </header>
+
+        <div className="columns">
+          <div className="column col-6">
+            <p>Write or paste your note here</p>
+            <div className="form-group">
+              <div className="input-group">
+                <textarea
+                  className="form-input"
+                  autoFocus
+                  onChange={this.onNoteChange}
+                />
+              </div>
+
+              <br />
+              {this.currentUser() ? (
+                <button className="btn" onClick={this.persistNote}>
+                  Submit note
+                </button>
+              ) : (
+                <button className="btn" onClick={this.signup}>
+                  Sign up
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="column col-6">
+            {user && <Notes user={user} />}
+            <hr className="divider" />
+            <pre style={{textAlign: 'left'}}>
+              {JSON.stringify({person: getPersonInStorage(address)}, null, 2)}
+            </pre>
+          </div>
+        </div>
       </div>
     )
   }

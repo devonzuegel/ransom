@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "heroku-postbuild": "bin/build",
-    "start": "bin/start-prod"
+    "start": "bin/start-prod",
+    "build-css": "bin/build-css",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
   },
   "dependencies": {
     "@types/express": "^4.16.0",

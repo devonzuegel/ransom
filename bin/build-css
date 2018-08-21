@@ -2,12 +2,8 @@
 
 source './bin/shared/strict-mode.sh'
 
-# Create build dir if doesn't exist
-mkdir -p build
-
-bin/build-server
-bin/build-client
-bin/build-css
+cd client
+node_modules/.bin/node-sass-chokidar src -o src
 
 # Wait for each job to finish. By calling wait for each job instead of
 # just using `wait`, we bubble up the exit code from each and fail this
