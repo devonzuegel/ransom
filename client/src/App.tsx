@@ -49,6 +49,7 @@ class App extends React.Component<{}, {note: string; user: any}> {
                 <textarea
                   className="form-input"
                   autoFocus
+                  onKeyDown={this.submitOnEnter}
                   onChange={this.onNoteChange}
                 />
               </div>
@@ -79,6 +80,12 @@ class App extends React.Component<{}, {note: string; user: any}> {
 
   public componentDidMount() {
     this.updateView()
+  }
+
+  private submitOnEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.keyCode === 13 && e.metaKey) {
+      this.persistNote()
+    }
   }
 
   private updateView = () => {
