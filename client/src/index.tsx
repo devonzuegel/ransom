@@ -8,6 +8,8 @@ import {Setup} from './components/Setup'
 import {Ethereum} from './Ethereum'
 import store from './redux/store'
 
+import './index.css'
+
 declare global {
   /* tslint:disable-next-line:interface-name */
   interface Window {

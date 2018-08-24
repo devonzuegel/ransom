@@ -35,48 +35,31 @@ const isDone = (props: ISetupStatelessProps) =>
   props.metamaskInstalled && props.metamaskUnlocked
 
 const SetupStateless: React.SFC<ISetupStatelessProps> = props => {
-  return (
+  return !isDone(props) ? (
     <div>
-      <pre>
-        {JSON.stringify(
-          {
-            metamaskInstalled: props.metamaskInstalled,
-            metamaskUnlocked: props.metamaskUnlocked,
-          },
-          null,
-          2
-        )}
-      </pre>
+      <h1>{props.header}</h1>
+      <p>{props.description}</p>
 
-      {!isDone(props) ? (
-        <div>
-          <h1>{props.header}</h1>
-          <p>{props.description}</p>
-
-          <h2>
-            {props.returningUser ? 'Welcome back to Ransom' : 'Welcome to Ransom'}
-          </h2>
-          <p>
-            {props.returningUser
-              ? 'Make sure to complete the steps below to sign in to Ransom'
-              : 'Make sure to complete the steps below to set up Ransom'}
-          </p>
-          <ul>
-            <Step complete={props.metamaskInstalled}>
-              <span onClick={props.onMetamaskInstallClick}>Install Metamask</span> on
-              your browser
-            </Step>
-            <Step complete={props.metamaskUnlocked}>
-              Sign in to and unlock your Metamask
-            </Step>
-          </ul>
-        </div>
-      ) : (
-        <div>
-          <PeekMetamaskAddress address={props.ethAddress} />
-          {props.children(props)}
-        </div>
-      )}
+      <h2>{props.returningUser ? 'Welcome back to Ransom' : 'Welcome to Ransom'}</h2>
+      <p>
+        {props.returningUser
+          ? 'Make sure to complete the steps below to sign in to Ransom'
+          : 'Make sure to complete the steps below to set up Ransom'}
+      </p>
+      <ul>
+        <Step complete={props.metamaskInstalled}>
+          <a onClick={props.onMetamaskInstallClick}>Install Metamask</a> on your
+          browser
+        </Step>
+        <Step complete={props.metamaskUnlocked}>
+          Sign in to and unlock your Metamask
+        </Step>
+      </ul>
+    </div>
+  ) : (
+    <div>
+      <PeekMetamaskAddress address={props.ethAddress} />
+      {props.children(props)}
     </div>
   )
 }

@@ -66,7 +66,7 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
           </div>
           <div className="column col-6">
             {user && <Notes user={user} />}
-            <pre style={{textAlign: 'left'}}>
+            <pre className="pre" style={{textAlign: 'left'}}>
               {JSON.stringify(
                 {person: getPersonInStorage(this.props.address)},
                 null,
