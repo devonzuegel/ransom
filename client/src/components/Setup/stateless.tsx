@@ -64,6 +64,4 @@ const SetupStateless: React.SFC<ISetupStatelessProps> = props => {
   )
 }
 
-SetupStateless.defaultProps = {}
-
 export {SetupStateless, ISetupStatelessProps}
