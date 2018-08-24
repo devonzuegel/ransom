@@ -2,8 +2,6 @@ import * as DateFns from 'date-fns'
 import * as React from 'react'
 import {clearUser, getPersonInStorage, IPerson, setPersonInStorage} from './api'
 
-const address = 'devon'
-
 class Notes extends React.Component<{user: IPerson}> {
   public render() {
     return (
@@ -23,7 +21,7 @@ class Notes extends React.Component<{user: IPerson}> {
   }
 }
 
-class App extends React.Component<{}, {note: string; user: any}> {
+class App extends React.Component<{address: string}, {note: string; user: any}> {
   public state = {note: '', user: undefined}
 
   public render() {
@@ -68,8 +66,12 @@ class App extends React.Component<{}, {note: string; user: any}> {
           </div>
           <div className="column col-6">
             {user && <Notes user={user} />}
-            <pre style={{textAlign: 'left'}}>
-              {JSON.stringify({person: getPersonInStorage(address)}, null, 2)}
+            <pre className="pre" style={{textAlign: 'left'}}>
+              {JSON.stringify(
+                {person: getPersonInStorage(this.props.address)},
+                null,
+                2
+              )}
             </pre>
           </div>
         </div>
@@ -88,17 +90,17 @@ class App extends React.Component<{}, {note: string; user: any}> {
   }
 
   private updateView = () => {
-    const user = getPersonInStorage(address)
+    const user = getPersonInStorage(this.props.address)
     this.setState({user})
   }
 
   private signup = () => {
-    setPersonInStorage({address, notes: []})
+    setPersonInStorage({address: this.props.address, notes: []})
     this.updateView()
   }
 
   private currentUser = () => {
-    const retrieved = getPersonInStorage(address)
+    const retrieved = getPersonInStorage(this.props.address)
     if (retrieved instanceof Error) {
       return undefined
     }
@@ -109,12 +111,12 @@ class App extends React.Component<{}, {note: string; user: any}> {
   }
 
   private persistNote = () => {
-    const retrieved = getPersonInStorage(address)
+    const retrieved = getPersonInStorage(this.props.address)
     if (retrieved instanceof Error) {
       return alert(retrieved)
     }
     const user = {
-      address,
+      address: this.props.address,
       notes: [
         ...retrieved.notes,
         {
@@ -128,7 +130,7 @@ class App extends React.Component<{}, {note: string; user: any}> {
   }
 
   private clearStorage = () => {
-    clearUser(address)
+    clearUser(this.props.address)
     this.updateView()
   }
 }

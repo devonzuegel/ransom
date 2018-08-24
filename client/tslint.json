@@ -3,7 +3,8 @@
   "rules": {
     "max-classes-per-file": false,
     "jsx-boolean-value": false,
-    "no-console": false
+    "no-console": false,
+    "curly": [true, "ignore-same-line"]
   },
   "linterOptions": {
     "exclude": [
