@@ -1,8 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
 
-import {PeekMetamaskAddress} from './../PeekMetamaskAddress'
-
 interface IStepProps {
   optional?: boolean
   complete?: boolean
@@ -58,7 +56,9 @@ const SetupStateless: React.SFC<ISetupStatelessProps> = props => {
     </div>
   ) : (
     <div>
-      <PeekMetamaskAddress address={props.ethAddress} />
+      <p>
+        Signed in as: <code>{props.ethAddress}</code>
+      </p>
       {props.children(props)}
     </div>
   )
