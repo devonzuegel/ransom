@@ -9,8 +9,13 @@ const app = express()
 app.use(express.static(path.join(__dirname, '/../client')))
 
 app.get('/api/users', async (req, res) => {
-  const users = await allUsers()
-  return res.json(users)
+  try {
+    const users = await allUsers()
+    return res.json(users)
+  } catch (error) {
+    console.error(error)
+    return res.json('Error BLAH')
+  }
 })
 
 app.post('/api/users', async (req, res) => {

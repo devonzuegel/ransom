@@ -1,8 +1,15 @@
 import * as pg from 'pg'
-const conString = 'postgres://devonzuegel@localhost:5432/ransom-dev'
+import * as dotenv from 'dotenv'
 
-const client = new pg.Client(conString)
-client.connect()
+// TODO: Validate env variables
+const env = dotenv.load()
+
+if (!env.parsed) {
+  throw Error('Could not load environment')
+}
+
+const client = new pg.Client(env.parsed.DATABASE_URL || process.env.DATABASE_URL)
+client.connect().catch(console.error)
 
 type TUser = [string, {[k: string]: any}]
 
@@ -25,6 +32,6 @@ export const addUser = async (
     return [ethAddress, result]
   } catch (error) {
     console.error(error)
-    return new Error('lkjlkj')
+    return new Error('Error while inserting user')
   }
 }
