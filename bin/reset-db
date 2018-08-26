@@ -1,0 +1,14 @@
+#!/bin/bash
+
+source './bin/shared/strict-mode.sh'
+
+dropdb ransom-dev
+createdb ransom-dev
+bin/setup-db
+
+# Wait for each job to finish. By calling wait for each job instead of
+# just using `wait`, we bubble up the exit code from each and fail this
+# executable if any part of the build fails
+for pid in $(pgrep -P $$); do
+  wait $pid
+done

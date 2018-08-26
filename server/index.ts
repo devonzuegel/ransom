@@ -1,13 +1,24 @@
 import * as express from 'express'
 import * as path from 'path'
 
+import {allUsers} from './users' // TODO
+
 const app = express()
 
 // Serve static files from the React app, found under build/client
 app.use(express.static(path.join(__dirname, '/../client')))
 
-app.get('/foo', (req, res) => {
-  res.json(['here', 'is', 'some', 'data'])
+app.get('/api/users', async (req, res) => {
+  const users = await allUsers()
+  return res.json(users)
+})
+
+app.post('/api/users', async (req, res) => {
+  // TODO
+  console.log({body: req.body})
+  // try {
+  //   const user = await addUser(req.body)
+  // } catch (error) {}
 })
 
 // The "catchall" handler: for any request that doesn't
