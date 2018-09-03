@@ -14,7 +14,7 @@ app.get('/api/users', async (req, res) => {
     return res.json(users)
   } catch (error) {
     console.error(error)
-    return res.json('Error BLAH')
+    return res.json('Sorry, something went wrong')
   }
 })
 
