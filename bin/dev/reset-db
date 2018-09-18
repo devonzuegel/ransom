@@ -4,7 +4,7 @@ source './bin/shared/strict-mode.sh'
 
 dropdb ransom-dev
 createdb ransom-dev
-bin/setup-db
+bin/dev/setup-db
 
 # Wait for each job to finish. By calling wait for each job instead of
 # just using `wait`, we bubble up the exit code from each and fail this

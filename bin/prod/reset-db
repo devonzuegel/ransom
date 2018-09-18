@@ -2,11 +2,8 @@
 
 source './bin/shared/strict-mode.sh'
 
-bin/start-dev-server
-
-# Run the frontend
-cd client
-yarn start
+heroku pg:reset DATABASE
+bin/prod/setup-db
 
 # Wait for each job to finish. By calling wait for each job instead of
 # just using `wait`, we bubble up the exit code from each and fail this
