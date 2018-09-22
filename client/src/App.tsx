@@ -21,7 +21,10 @@ class Notes extends React.Component<{user: IPerson}> {
   }
 }
 
-class App extends React.Component<{address: string}, {note: string; user: any}> {
+class App extends React.Component<
+  {address: string; firstName: string},
+  {note: string; user: any}
+> {
   public state = {note: '', user: undefined}
 
   public render() {
@@ -30,13 +33,42 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
       <div className="container">
         <header className="navbar">
           <section className="navbar-section">
-            <span className="label label-rounded">Ransom</span>
+            <a className="btn btn-link">Write</a>
+            <a className="btn btn-link">Archive</a>
           </section>
-          <section className="navbar-section">
-            <button className="btn btn-sm btn-primary" onClick={this.clearStorage}>
-              Clear storage
-            </button>
-          </section>
+
+          <div className="popover popover-bottom">
+            <div className="tile tile-centered">
+              <div className="tile-icon">
+                <div className="example-tile-icon">
+                  <i className="icon icon-people icon-2x centered" />
+                </div>
+              </div>
+              <div className="tile-content">
+                <div className="tile-title">Hello, {this.props.firstName}!</div>
+                <div className="tile-subtitle text-gray subtext-code">
+                  {this.props.address.substr(0, 6)}
+                  ..
+                  {this.props.address.substr(this.props.address.length - 4, 4)}
+                </div>
+              </div>
+            </div>
+
+            <div className="popover-container account-info">
+              <div className="card">
+                <div className="card-body">
+                  Signed in as: <code>{this.props.address}</code>
+                </div>
+                <div className="card-body">
+                  <button
+                    className="btn btn-sm btn-primary input-group-btn"
+                    onClick={this.clearStorage}>
+                    Clear storage
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </header>
 
         <div className="columns">
@@ -64,9 +96,9 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
               )}
             </div>
           </div>
-          <div className="column col-6">
+          <div className="column col-6 main-right-column">
             {user && <Notes user={user} />}
-            <pre className="pre" style={{textAlign: 'left'}}>
+            <pre className="pre local-storage" style={{textAlign: 'left'}}>
               {JSON.stringify(
                 {person: getPersonInStorage(this.props.address)},
                 null,

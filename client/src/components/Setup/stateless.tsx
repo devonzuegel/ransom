@@ -33,7 +33,11 @@ const isDone = (props: ISetupStatelessProps) =>
   props.metamaskInstalled && props.metamaskUnlocked
 
 const SetupStateless: React.SFC<ISetupStatelessProps> = props => {
-  return !isDone(props) ? (
+  if (isDone(props)) {
+    return <div className="setup-steps--done-wrapper">{props.children(props)}</div>
+  }
+
+  return (
     <div>
       <h1>{props.header}</h1>
       <p>{props.description}</p>
@@ -53,13 +57,6 @@ const SetupStateless: React.SFC<ISetupStatelessProps> = props => {
           Sign in to and unlock your Metamask
         </Step>
       </ul>
-    </div>
-  ) : (
-    <div>
-      <p>
-        Signed in as: <code>{props.ethAddress}</code>
-      </p>
-      {props.children(props)}
     </div>
   )
 }

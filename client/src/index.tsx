@@ -50,7 +50,7 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
     return (
       <Provider store={store}>
         <Setup ethereum={this.state.ethereum} header="Sign In">
-          {setupProps => <App address={setupProps.ethAddress} />}
+          {setupProps => <App firstName="Bowser" address={setupProps.ethAddress} />}
         </Setup>
       </Provider>
     )

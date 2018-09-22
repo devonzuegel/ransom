@@ -2,7 +2,7 @@
 
 source './bin/shared/strict-mode.sh'
 
-bin/start-dev-server
+bin/start-dev-server &
 
 # Run the frontend
 cd client
