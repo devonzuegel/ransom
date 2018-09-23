@@ -1,6 +1,7 @@
 import * as DateFns from 'date-fns'
 
-export const comingDueDate = () => {
-  const weekfromNow = DateFns.addWeeks(new Date(), 1)
-  return DateFns.subSeconds(DateFns.startOfWeek(weekfromNow), 1)
+export const comingDueDate = (date: Date) => {
+  const weekfromNow = DateFns.addWeeks(date, 1)
+  return DateFns.startOfWeek(weekfromNow)
+  // return DateFns.subSeconds(DateFns.startOfWeek(weekfromNow), 1)
 }

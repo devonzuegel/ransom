@@ -1,5 +1,6 @@
 import * as React from 'react'
-import {getPerson, setPerson} from '../../api'
+import {Link} from 'react-router-dom'
+import {getChallenges, getPerson, setPerson} from '../../api'
 import {defaultSettings} from '../Settings'
 
 const NewPost = (props: {
@@ -27,6 +28,60 @@ const NewPost = (props: {
   </div>
 )
 
+// TODO: Use IChallenge from shared (requires ejecting)
+export interface IChallenge {
+  dueAt: Date
+}
+
+interface IActiveChallengesState {
+  challenges: IChallenge[]
+}
+
+class ActiveChallenges extends React.Component<
+  {address: string},
+  IActiveChallengesState
+> {
+  public state: IActiveChallengesState = {challenges: []}
+
+  public render() {
+    const activeChallenges = this.state.challenges.filter(
+      challenge => new Date(challenge.dueAt) > new Date()
+    )
+    if (activeChallenges.length === 0) {
+      return (
+        <div className="empty">
+          <div className="empty-icon">
+            <i className="icon icon-emoji icon-3x" />
+          </div>
+          <p className="empty-title h5">You have no active challenges</p>
+          <div className="empty-action">
+            <Link to="/" className="btn btn-primary">
+              Create one
+            </Link>
+          </div>
+        </div>
+      )
+    }
+    return (
+      <div>
+        <h1 className="h1">Active challenges</h1>
+        {activeChallenges.map((challenge, i) => (
+          <pre key={i} className="code" data-lang="JSON">
+            <code>{JSON.stringify(challenge, null, 2)}</code>
+          </pre>
+        ))}
+      </div>
+    )
+  }
+  public componentDidMount = async () => {
+    const result = await getChallenges(this.props.address)
+    if (result instanceof Error) {
+      return alert(result)
+    }
+    this.setState({challenges: result})
+  }
+}
+
 class App extends React.Component<{address: string}, {note: string; user: any}> {
   public state = {note: '', user: undefined}
 
@@ -46,6 +101,10 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
                 Sign up
               </button>
             )}
+          </div>
+
+          <div className="column col-6">
+            <ActiveChallenges address={this.props.address} />
           </div>
         </div>
       </div>

@@ -45,6 +45,14 @@ export const getUser = async (ethAddress: string) => {
   return result.rows
 }
 
+export const getUserChallenges = async (ethAddress: string) => {
+  serverLogger.info(`Retrieving challenges for user with ethAddress ${ethAddress}`)
+  const result = await client.query(
+    `SELECT * from challenges where "userAddress" = '${ethAddress}';`
+  )
+  return result.rows
+}
+
 export const updateUserData = async (ethAddress: string, newData: Object) => {
   serverLogger.info(`Updating user with ethAddress ${ethAddress}`)
   const stringifiedData = JSON.stringify(newData).replace(/\'/g, "''")

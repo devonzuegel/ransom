@@ -1,3 +1,4 @@
+import {IChallenge} from '../pages/Write'
 import * as http from './http'
 import {IObject, ParseError} from './Storage'
 
@@ -23,6 +24,16 @@ export const setPerson = async (person: IPerson) => {
 export const getPerson = async (ethAddress: string) => {
   // TODO: Get person from backend
   const result = await http.get<IPerson>(`/api/users/${ethAddress}`)
+  if (result instanceof Error) {
+    alert('Failure!')
+  }
+  return result
+}
+
+export const getChallenges = async (ethAddress: string) => {
+  // TODO: Get person from backend
+  // TODO: Use IChallenge from shared (requires ejecting)
+  const result = await http.get<IChallenge[]>(`/api/users/${ethAddress}/challenges`)
   if (result instanceof Error) {
     alert('Failure!')
   }

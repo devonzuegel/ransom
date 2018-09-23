@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as path from 'path'
 
-import {allUsers, getUser, updateUserData} from './users' // TODO
+import {allUsers, getUser, updateUserData, getUserChallenges} from './users' // TODO
 import {renderError} from './renderError'
 
 const app = express()
@@ -16,14 +16,12 @@ app.get('/api/users', async (req, res) => {
     const users = await allUsers()
     return res.json(users)
   } catch (error) {
-    console.error(error)
-    return res.json('Sorry, something went wrong')
+    return renderError(req, res)(error)
   }
 })
 
 app.get('/api/users/:ethAddress', async (req, res) => {
   try {
-    console.log(req.params.ethAddress)
     const ethAddress = req.params.ethAddress
     if (ethAddress === undefined || !(typeof ethAddress === 'string')) {
       throw Error('ethAddress must be a defined string')
@@ -34,32 +32,36 @@ app.get('/api/users/:ethAddress', async (req, res) => {
     }
     return res.json(users[0].data)
   } catch (error) {
-    console.error(error)
-    return res.json('Sorry, something went wrong')
+    return renderError(req, res)(error)
   }
 })
 
-app.post('/api/users/:ethAddress', async (req, res) => {
+app.get('/api/users/:ethAddress/challenges', async (req, res) => {
   try {
     console.log(req.params.ethAddress)
     const ethAddress = req.params.ethAddress
     if (ethAddress === undefined || !(typeof ethAddress === 'string')) {
       throw Error('ethAddress must be a defined string')
     }
-    console.log('req.body:', req.body)
-    // TODO: validate body
-    const result = await updateUserData(ethAddress, req.body)
-    console.log('result', result)
-    return res.json(result)
+    const challenges = await getUserChallenges(ethAddress)
+    return res.json(challenges)
   } catch (error) {
-    console.error(error)
     return renderError(req, res)(error)
   }
-  // TODO
-  console.log({body: req.body})
-  // try {
-  //   const user = await addUser(req.body)
-  // } catch (error) {}
+})
+
+app.post('/api/users/:ethAddress', async (req, res) => {
+  try {
+    const ethAddress = req.params.ethAddress
+    if (ethAddress === undefined || !(typeof ethAddress === 'string')) {
+      throw Error('ethAddress must be a defined string')
+    }
+    // TODO: validate body
+    const result = await updateUserData(ethAddress, req.body)
+    return res.json(result)
+  } catch (error) {
+    return renderError(req, res)(error)
+  }
 })
 
 // The "catchall" handler: for any request that doesn't
