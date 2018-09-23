@@ -1,25 +1,5 @@
-import * as DateFns from 'date-fns'
 import * as React from 'react'
-import {getPersonInStorage, IPerson, setPersonInStorage} from '../../api'
-
-class Notes extends React.Component<{user: IPerson}> {
-  public render() {
-    return (
-      this.props.user && (
-        <div>
-          {this.props.user.notes.map((note, i) => (
-            <div key={i}>
-              <div className="label">
-                {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
-              </div>
-              <p>{note.content}</p>
-            </div>
-          ))}
-        </div>
-      )
-    )
-  }
-}
+import {getPersonInStorage, setPersonInStorage} from '../../api'
 
 const NewPost = (props: {
   submitOnEnter: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
@@ -66,14 +46,10 @@ const LocalStorageViewer = (props: {address: string}) => (
   </div>
 )
 
-class App extends React.Component<
-  {address: string; firstName: string},
-  {note: string; user: any}
-> {
+class App extends React.Component<{address: string}, {note: string; user: any}> {
   public state = {note: '', user: undefined}
 
   public render() {
-    const user = this.currentUser()
     return (
       <div>
         <div className="columns">
@@ -89,10 +65,9 @@ class App extends React.Component<
                 Sign up
               </button>
             )}
-            <LocalStorageViewer {...this.props} />
           </div>
           <div className="column col-6 main-right-column">
-            {user && <Notes user={user} />}
+            <LocalStorageViewer {...this.props} />
           </div>
         </div>
       </div>

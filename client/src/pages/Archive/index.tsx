@@ -1,8 +1,37 @@
+import * as DateFns from 'date-fns'
 import * as React from 'react'
+import {getPersonInStorage} from '../../api'
 
-const Archive = (props: {address: string; firstName: string}) => (
+class Notes extends React.Component<{address: string}> {
+  public render() {
+    const user = this.currentUser()
+    return (
+      user && (
+        <div>
+          {user.notes.map((note, i) => (
+            <div key={i}>
+              <div className="label">
+                {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
+              </div>
+              <p>{note.content}</p>
+            </div>
+          ))}
+        </div>
+      )
+    )
+  }
+
+  private currentUser = () => {
+    const retrieved = getPersonInStorage(this.props.address)
+    if (retrieved instanceof Error) {
+      return undefined
+    }
+    return retrieved
+  }
+}
+const Archive = (props: {address: string}) => (
   <div>
-    <code>TODO</code>
+    <Notes {...props} />
   </div>
 )
 

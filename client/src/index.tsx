@@ -71,7 +71,7 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
                       path="/"
                       component={() => (
                         /* tslint:disable-next-line */
-                        <Write firstName="Bowser" address={setupProps.ethAddress} />
+                        <Write address={setupProps.ethAddress} />
                       )}
                     />
                     <Route
@@ -79,10 +79,7 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
                       path="/archive"
                       component={() => (
                         /* tslint:disable-next-line */
-                        <Archive
-                          firstName="Bowser"
-                          address={setupProps.ethAddress}
-                        />
+                        <Archive address={setupProps.ethAddress} />
                       )}
                     />
                   </div>

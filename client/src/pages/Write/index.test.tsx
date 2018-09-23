@@ -4,6 +4,6 @@ import App from '.'
 
 it('renders without crashing', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<App firstName="Bowser" address="foo" />, div)
+  ReactDOM.render(<App address="foo" />, div)
   ReactDOM.unmountComponentAtNode(div)
 })
