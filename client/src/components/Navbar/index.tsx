@@ -1,11 +1,7 @@
 import * as React from 'react'
 import {Link} from 'react-router-dom'
 
-const Navbar = (props: {
-  address: string
-  firstName: string
-  clearStorage: () => void
-}) => (
+const Navbar = (props: {address: string; firstName: string}) => (
   <header className="navbar">
     <section className="navbar-section">
       <Link to="/" className="btn btn-link">
@@ -43,13 +39,6 @@ const Navbar = (props: {
           <div className="card">
             <div className="card-body">
               Signed in as: <code>{props.address}</code>
-            </div>
-            <div className="card-body">
-              <button
-                className="btn btn-sm btn-primary input-group-btn"
-                onClick={props.clearStorage}>
-                Clear storage
-              </button>
             </div>
           </div>
         </div>

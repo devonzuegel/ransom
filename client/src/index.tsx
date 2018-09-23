@@ -4,7 +4,6 @@ import {Provider} from 'react-redux'
 import {BrowserRouter, Route} from 'react-router-dom'
 import {persistStore} from 'redux-persist'
 import * as Web3 from 'web3'
-import {clearUser} from './api'
 import Navbar from './components/Navbar'
 import {Setup} from './components/Setup'
 import {Ethereum} from './Ethereum'
@@ -56,13 +55,11 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
       <Provider store={store}>
         <Setup ethereum={this.state.ethereum} header="Sign In">
           {setupProps => {
-            const clearStorage = () => clearUser(setupProps.ethAddress)
             return (
               <BrowserRouter>
                 <div className="container">
                   <Navbar
                     {...this.props}
-                    clearStorage={clearStorage}
                     address={setupProps.ethAddress}
                     firstName="Bowser"
                   />

@@ -3287,3 +3287,6 @@ html {
 
 .notes .column {
   padding: 0.4rem; }
+
+.note-body {
+  white-space: pre-line; }

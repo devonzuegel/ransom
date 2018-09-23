@@ -1,9 +1,12 @@
 import * as express from 'express'
+import * as bodyParser from 'body-parser'
 import * as path from 'path'
 
-import {allUsers, getUser} from './users' // TODO
+import {allUsers, getUser, updateUserData} from './users' // TODO
+import {renderError} from './renderError'
 
 const app = express()
+app.use(bodyParser.json())
 
 // Serve static files from the React app, found under build/client
 app.use(express.static(path.join(__dirname, '/../client')))
@@ -36,7 +39,22 @@ app.get('/api/users/:ethAddress', async (req, res) => {
   }
 })
 
-app.post('/api/users', async (req, res) => {
+app.post('/api/users/:ethAddress', async (req, res) => {
+  try {
+    console.log(req.params.ethAddress)
+    const ethAddress = req.params.ethAddress
+    if (ethAddress === undefined || !(typeof ethAddress === 'string')) {
+      throw Error('ethAddress must be a defined string')
+    }
+    console.log('req.body:', req.body)
+    // TODO: validate body
+    const result = await updateUserData(ethAddress, req.body)
+    console.log('result', result)
+    return res.json(result)
+  } catch (error) {
+    console.error(error)
+    return renderError(req, res)(error)
+  }
   // TODO
   console.log({body: req.body})
   // try {

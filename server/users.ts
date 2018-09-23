@@ -1,5 +1,6 @@
 import * as pg from 'pg'
 import * as dotenv from 'dotenv'
+import {serverLogger} from './logger'
 
 // TODO: SQL injection is definitely possible right now. Fix that!
 
@@ -31,27 +32,26 @@ client.connect().catch(e => {
 type TUser = [string, {[k: string]: any}]
 
 export const allUsers = async () => {
-  console.log('Retrieving users...')
+  serverLogger.info('Retrieving all users')
   const result = await client.query('SELECT * from users;')
   return result.rows
 }
 
 export const getUser = async (ethAddress: string) => {
-  console.log(`Retrieving user with ethAddress ${ethAddress}`)
+  serverLogger.info(`Retrieving user with ethAddress ${ethAddress}`)
   const result = await client.query(
     `SELECT * from users where address = '${ethAddress}';`
   )
   return result.rows
 }
 
-export const updateUserData = async (ethAddress: string) => {
-  console.log(`Updating user with ethAddress ${ethAddress}`)
+export const updateUserData = async (ethAddress: string, newData: Object) => {
+  serverLogger.info(`Updating user with ethAddress ${ethAddress}`)
+  const stringifiedData = JSON.stringify(newData).replace(/\'/g, "''")
   const result = await client.query(
-    `UPDATE "public"."users" SET "data" = ` +
-      `'{"notes": [{"content": "updated again!", "createdAt": "2018-09-22 20:50:31.016282"},{"content": "xxxx", "createdAt": "2018-09-22 20:52:31.016282"}], "address": "0x9cbe5b896d0c24acf41860b9e3df6750c2040a40", "settings": {"costPerMiss": 500, "notesPerWeek": 2}}' ` +
-      `WHERE "address" = '${ethAddress}';`
+    `UPDATE "public"."users" SET "data" = '${stringifiedData}' WHERE "address" = '${ethAddress}';`
   )
-  console.log(result)
+  return result.rows
 }
 
 export const addUser = async (

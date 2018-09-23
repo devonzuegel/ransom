@@ -2,10 +2,18 @@ import * as DateFns from 'date-fns'
 import * as React from 'react'
 import {getPerson, ISettings, setPerson} from '../../api'
 
-export const defaultSettings = {costPerMiss: 500, notesPerWeek: 2}
+export const defaultSettings: ISettings = {costPerMiss: 500, notesPerWeek: 2}
 
 class Settings extends React.Component<{address: string}, ISettings> {
   public state = defaultSettings
+
+  public async componentDidMount() {
+    const user = await this.currentUser()
+    if (!user || user instanceof Error) return
+    if (user.settings) {
+      this.setState(user.settings)
+    }
+  }
 
   public render() {
     const user = this.currentUser()
@@ -63,9 +71,12 @@ class Settings extends React.Component<{address: string}, ISettings> {
     if (retrieved instanceof Error) {
       return alert(retrieved)
     }
-    console.log(retrieved)
-    const user = {...retrieved, settings: this.state}
-    setPerson(user)
+    await setPerson({
+      notes: [],
+      ...retrieved,
+      address: this.props.address,
+      settings: this.state,
+    })
   }
 
   private currentUser = () => {

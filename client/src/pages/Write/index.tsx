@@ -89,8 +89,8 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
     this.setState({user})
   }
 
-  private signup = () => {
-    setPerson({
+  private signup = async () => {
+    await setPerson({
       address: this.props.address,
       notes: [],
       settings: defaultSettings,

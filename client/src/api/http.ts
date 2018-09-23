@@ -19,7 +19,7 @@ const responseHandler = <T>(
 }
 
 export const post = <T>(endpoint: string, data: {[k: string]: any} = {}) =>
-  new Promise<T>((resolve, reject) => {
+  new Promise<T | Error>((resolve, reject) => {
     fetch(endpoint, {
       ...sharedOptions,
       body: JSON.stringify(data),

@@ -19,9 +19,6 @@ class Notes extends React.Component<{address: string}, IState> {
     if (user === undefined) {
       return 'Please sign in'
     }
-
-    console.log(user)
-    console.log(user.notes)
     if (user.notes.length === 0) {
       return (
         <div className="empty">
@@ -49,7 +46,7 @@ class Notes extends React.Component<{address: string}, IState> {
                   {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
                 </div>
               </div>
-              <div className="card-body">{note.content}</div>
+              <div className="card-body note-body">{note.content}</div>
             </div>
           </div>
         ))}
