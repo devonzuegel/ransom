@@ -6,11 +6,13 @@
     "heroku-postbuild": "bin/build",
     "start": "bin/start-prod",
     "build-css": "bin/build-css",
+    "test": "jest",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
   },
   "dependencies": {
     "@types/dotenv": "^4.0.3",
     "@types/express": "^4.16.0",
+    "@types/jest": "^23.3.2",
     "@types/pg": "^7.4.10",
     "cookie-parser": "~1.4.3",
     "date-fns": "^1.29.0",
@@ -20,10 +22,39 @@
     "ganache-cli": "^6.1.6",
     "http-errors": "~1.6.2",
     "jade": "~1.11.0",
+    "jest": "^23.6.0",
     "morgan": "~1.9.0",
     "pg": "^7.4.3",
     "spectre.css": "^0.5.3",
+    "ts-jest": "^23.10.1",
     "ts-node": "^7.0.0",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "@client/(.*)": "<rootDir>/client/src/$1",
+      "@server/(.*)": "<rootDir>/server/$1"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest/polyfills.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testMatch": [
+      "<rootDir>/client/**/*.test.ts?(x)",
+      "<rootDir>/server/**/*.test.ts?(x)"
+    ]
   }
 }
