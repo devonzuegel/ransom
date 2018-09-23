@@ -13,6 +13,7 @@ import Write from './pages/Write'
 import store from './redux/store'
 
 import './index.css'
+import Settings from './pages/Settings'
 
 declare global {
   /* tslint:disable-next-line:interface-name */
@@ -80,6 +81,14 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
                       component={() => (
                         /* tslint:disable-next-line */
                         <Archive address={setupProps.ethAddress} />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/settings"
+                      component={() => (
+                        /* tslint:disable-next-line */
+                        <Settings address={setupProps.ethAddress} />
                       )}
                     />
                   </div>

@@ -14,6 +14,9 @@ const Navbar = (props: {
       <Link to="/archive" className="btn btn-link">
         Archive
       </Link>
+      <Link to="/settings" className="btn btn-link">
+        Settings
+      </Link>
     </section>
 
     <div className="popover popover-bottom">
