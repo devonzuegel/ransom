@@ -5,10 +5,12 @@ import {BrowserRouter, Route} from 'react-router-dom'
 import {persistStore} from 'redux-persist'
 import * as Web3 from 'web3'
 import App from './App'
+import Navbar from './components/Navbar'
 import {Setup} from './components/Setup'
 import {Ethereum} from './Ethereum'
 import store from './redux/store'
 
+import {clearUser} from './api'
 import './index.css'
 
 declare global {
@@ -25,7 +27,15 @@ interface IPersistGateState {
 
 const Loading = () => <div>Loading</div>
 
-const Archive = () => <code>TODO</code>
+const Archive = (props: {address: string; firstName: string}) => {
+  const clearStorage = () => clearUser(props.address)
+  return (
+    <>
+      <Navbar {...props} clearStorage={clearStorage} />
+      <code>TODO</code>
+    </>
+  )
+}
 
 class PersistGate extends React.Component<{}, IPersistGateState> {
   public state: IPersistGateState = {rehydrating: true}
@@ -55,7 +65,7 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
         <Setup ethereum={this.state.ethereum} header="Sign In">
           {setupProps => (
             <BrowserRouter>
-              <div>
+              <>
                 <Route
                   exact
                   path="/"
@@ -64,8 +74,15 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
                     <App firstName="Bowser" address={setupProps.ethAddress} />
                   )}
                 />
-                <Route exact path="/archive" component={Archive} />
-              </div>
+                <Route
+                  exact
+                  path="/archive"
+                  component={() => (
+                    /* tslint:disable-next-line */
+                    <Archive firstName="Bowser" address={setupProps.ethAddress} />
+                  )}
+                />
+              </>
             </BrowserRouter>
           )}
         </Setup>
