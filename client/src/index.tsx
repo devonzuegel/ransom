@@ -4,13 +4,13 @@ import {Provider} from 'react-redux'
 import {BrowserRouter, Route} from 'react-router-dom'
 import {persistStore} from 'redux-persist'
 import * as Web3 from 'web3'
-import App from './App'
+import {clearUser} from './api'
 import Navbar from './components/Navbar'
 import {Setup} from './components/Setup'
 import {Ethereum} from './Ethereum'
 import store from './redux/store'
+import Write from './Write'
 
-import {clearUser} from './api'
 import './index.css'
 
 declare global {
@@ -76,7 +76,7 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
                       path="/"
                       component={() => (
                         /* tslint:disable-next-line */
-                        <App firstName="Bowser" address={setupProps.ethAddress} />
+                        <Write firstName="Bowser" address={setupProps.ethAddress} />
                       )}
                     />
                     <Route
