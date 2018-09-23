@@ -7,8 +7,10 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "@client/*": ["client/*"],
-      "@server/*": ["server/*"]
+      "@client/*": ["client/src/*"],
+      "@server/*": ["server/*"],
+      "@shared/*": ["shared/*"],
+      "@jest/*": ["jest/*"]
     },
     "jsx": "react",
     "moduleResolution": "node",

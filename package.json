@@ -41,7 +41,9 @@
     },
     "moduleNameMapper": {
       "@client/(.*)": "<rootDir>/client/src/$1",
-      "@server/(.*)": "<rootDir>/server/$1"
+      "@server/(.*)": "<rootDir>/server/$1",
+      "@jest/(.*)": "<rootDir>/jest/$1",
+      "@shared/(.*)": "<rootDir>/shared/$1"
     },
     "moduleFileExtensions": [
       "js",
@@ -49,6 +51,11 @@
       "ts",
       "tsx"
     ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "./tsconfig.json"
+      }
+    },
     "setupFiles": [
       "<rootDir>/jest/polyfills.js"
     ],
@@ -57,7 +64,8 @@
     ],
     "testMatch": [
       "<rootDir>/client/**/*.test.ts?(x)",
-      "<rootDir>/server/**/*.test.ts?(x)"
+      "<rootDir>/server/**/*.test.ts?(x)",
+      "<rootDir>/shared/**/*.test.ts?(x)"
     ]
   }
 }
