@@ -1,14 +1,27 @@
 import * as DateFns from 'date-fns'
 import * as React from 'react'
 import {Link} from 'react-router-dom'
-import {getPersonInStorage} from '../../api'
+import {getPerson, IPerson} from '../../api'
 
-class Notes extends React.Component<{address: string}> {
+interface IState {
+  currentUser: IPerson | undefined
+}
+
+class Notes extends React.Component<{address: string}, IState> {
+  public state: IState = {currentUser: undefined}
+
+  public componentDidMount = async () => {
+    this.setState({currentUser: await this.currentUser()})
+  }
+
   public render() {
-    const user = this.currentUser()
+    const user = this.state.currentUser
     if (user === undefined) {
       return 'Please sign in'
     }
+
+    console.log(user)
+    console.log(user.notes)
     if (user.notes.length === 0) {
       return (
         <div className="empty">
@@ -44,8 +57,8 @@ class Notes extends React.Component<{address: string}> {
     )
   }
 
-  private currentUser = () => {
-    const retrieved = getPersonInStorage(this.props.address)
+  private currentUser = async () => {
+    const retrieved = await getPerson(this.props.address)
     if (retrieved instanceof Error) {
       return undefined
     }

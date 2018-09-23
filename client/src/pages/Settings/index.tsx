@@ -1,6 +1,6 @@
 import * as DateFns from 'date-fns'
 import * as React from 'react'
-import {getPersonInStorage, ISettings, setPersonInStorage} from '../../api'
+import {getPerson, ISettings, setPerson} from '../../api'
 
 export const defaultSettings = {costPerMiss: 500, notesPerWeek: 2}
 
@@ -58,18 +58,18 @@ class Settings extends React.Component<{address: string}, ISettings> {
     this.setState({...this.state, [attributeName]: Number(event.target.value)})
   }
 
-  private updateSettings = () => {
-    const retrieved = getPersonInStorage(this.props.address)
+  private updateSettings = async () => {
+    const retrieved = await getPerson(this.props.address)
     if (retrieved instanceof Error) {
       return alert(retrieved)
     }
     console.log(retrieved)
     const user = {...retrieved, settings: this.state}
-    setPersonInStorage(user)
+    setPerson(user)
   }
 
   private currentUser = () => {
-    const retrieved = getPersonInStorage(this.props.address)
+    const retrieved = getPerson(this.props.address)
     if (retrieved instanceof Error) {
       return undefined
     }

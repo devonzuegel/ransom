@@ -32,7 +32,7 @@ export const post = <T>(endpoint: string, data: {[k: string]: any} = {}) =>
   })
 
 export const get = <T>(endpoint: string) =>
-  new Promise<T>((resolve, reject) => {
+  new Promise<T | Error>((resolve, reject) => {
     fetch(endpoint, {...sharedOptions, method: 'get'})
       .then(r => responseHandler(resolve, reject)(r))
       .catch(e => {

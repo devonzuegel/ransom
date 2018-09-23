@@ -1,7 +1,7 @@
 import * as express from 'express'
 import * as path from 'path'
 
-import {allUsers} from './users' // TODO
+import {allUsers, getUser} from './users' // TODO
 
 const app = express()
 
@@ -12,6 +12,24 @@ app.get('/api/users', async (req, res) => {
   try {
     const users = await allUsers()
     return res.json(users)
+  } catch (error) {
+    console.error(error)
+    return res.json('Sorry, something went wrong')
+  }
+})
+
+app.get('/api/users/:ethAddress', async (req, res) => {
+  try {
+    console.log(req.params.ethAddress)
+    const ethAddress = req.params.ethAddress
+    if (ethAddress === undefined || !(typeof ethAddress === 'string')) {
+      throw Error('ethAddress must be a defined string')
+    }
+    const users = await getUser(ethAddress)
+    if (users.length !== 1) {
+      throw Error(`Expected 1 user but received ${users.length}`)
+    }
+    return res.json(users[0].data)
   } catch (error) {
     console.error(error)
     return res.json('Sorry, something went wrong')

@@ -1,6 +1,8 @@
 import * as pg from 'pg'
 import * as dotenv from 'dotenv'
 
+// TODO: SQL injection is definitely possible right now. Fix that!
+
 // TODO: Validate env variables
 dotenv.config()
 
@@ -28,8 +30,16 @@ client.connect().catch(e => {
 type TUser = [string, {[k: string]: any}]
 
 export const allUsers = async () => {
-  console.log('retrieving users...')
+  console.log('Retrieving users...')
   const result = await client.query('SELECT * from users;')
+  return result.rows
+}
+
+export const getUser = async (ethAddress: string) => {
+  console.log(`Retrieving user with ethAddress ${ethAddress}`)
+  const result = await client.query(
+    `SELECT * from users where address = '${ethAddress}';`
+  )
   return result.rows
 }
 

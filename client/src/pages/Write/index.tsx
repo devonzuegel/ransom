@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {getPersonInStorage, setPersonInStorage} from '../../api'
+import {getPerson, setPerson} from '../../api'
 import {defaultSettings} from '../Settings'
 
 const NewPost = (props: {
@@ -39,9 +39,7 @@ const LocalStorageViewer = (props: {address: string}) => (
       </label>
       <div className="accordion-body">
         <pre className="pre local-storage code" data-lang="JSON">
-          <code>
-            {JSON.stringify({person: getPersonInStorage(props.address)}, null, 2)}
-          </code>
+          <code>{JSON.stringify({person: getPerson(props.address)}, null, 2)}</code>
         </pre>
       </div>
     </div>
@@ -87,12 +85,12 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
   }
 
   private updateView = () => {
-    const user = getPersonInStorage(this.props.address)
+    const user = getPerson(this.props.address)
     this.setState({user})
   }
 
   private signup = () => {
-    setPersonInStorage({
+    setPerson({
       address: this.props.address,
       notes: [],
       settings: defaultSettings,
@@ -101,7 +99,7 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
   }
 
   private currentUser = () => {
-    const retrieved = getPersonInStorage(this.props.address)
+    const retrieved = getPerson(this.props.address)
     if (retrieved instanceof Error) {
       return undefined
     }
@@ -111,8 +109,8 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
     this.setState({note: event.target.value})
   }
 
-  private persistNote = () => {
-    const retrieved = getPersonInStorage(this.props.address)
+  private persistNote = async () => {
+    const retrieved = await getPerson(this.props.address)
     if (retrieved instanceof Error) {
       return alert(retrieved)
     }
@@ -121,7 +119,7 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
       notes: [...retrieved.notes, {content: this.state.note, createdAt: new Date()}],
       settings: retrieved.settings,
     }
-    setPersonInStorage(user)
+    setPerson(user)
     this.updateView()
 
     // TODO: Make this nicer
