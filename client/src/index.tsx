@@ -8,6 +8,7 @@ import {clearUser} from './api'
 import Navbar from './components/Navbar'
 import {Setup} from './components/Setup'
 import {Ethereum} from './Ethereum'
+import Archive from './pages/Archive'
 import Write from './pages/Write'
 import store from './redux/store'
 
@@ -26,12 +27,6 @@ interface IPersistGateState {
 }
 
 const Loading = () => <div>Loading</div>
-
-const Archive = (props: {address: string; firstName: string}) => (
-  <div>
-    <code>TODO</code>
-  </div>
-)
 
 class PersistGate extends React.Component<{}, IPersistGateState> {
   public state: IPersistGateState = {rehydrating: true}

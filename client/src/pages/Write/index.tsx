@@ -148,11 +148,6 @@ class App extends React.Component<
     setPersonInStorage(user)
     this.updateView()
   }
-
-  // private clearStorage = () => {
-  //   clearUser(this.props.address)
-  //   this.updateView()
-  // }
 }
 
 export default App
