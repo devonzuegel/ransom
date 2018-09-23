@@ -1,3 +1,4 @@
+import * as DateFns from 'date-fns'
 import * as React from 'react'
 import {getPersonInStorage, ISettings, setPersonInStorage} from '../../api'
 
@@ -11,11 +12,16 @@ class Settings extends React.Component<{address: string}, ISettings> {
     if (user === undefined) {
       return 'Please sign in'
     }
+    const weekfromNow = DateFns.addWeeks(new Date(), 1)
+    const comingDueDate = DateFns.subSeconds(DateFns.startOfWeek(weekfromNow), 1)
     return (
       <div>
         <br />I will submit <this.NotesPerWeekInput /> notes per week, and
         <br />I will pay $<this.CostPerMissInput /> for each note I fail to submit.
         <br />
+        This week's notes will come due at{' '}
+        <code>{DateFns.format(comingDueDate, 'HH:mm')}</code> on{' '}
+        <code>{DateFns.format(comingDueDate, 'D MMM YYYY')}</code>.<br />
         <br />
         <button className="btn btn-primary" onClick={this.updateSettings}>
           Update settings
