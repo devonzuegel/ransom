@@ -29,6 +29,7 @@
     "spectre.css": "^0.5.3",
     "ts-jest": "^23.10.1",
     "ts-node": "^7.0.0",
+    "tsconfig-paths": "^3.6.0",
     "typescript": "^3.0.1",
     "whatwg-fetch": "^3.0.0",
     "winston": "^3.1.0"
