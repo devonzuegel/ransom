@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux'
+import {BrowserRouter, Route} from 'react-router-dom'
 import {persistStore} from 'redux-persist'
 import * as Web3 from 'web3'
 import App from './App'
@@ -23,6 +24,8 @@ interface IPersistGateState {
 }
 
 const Loading = () => <div>Loading</div>
+
+const Archive = () => <code>TODO</code>
 
 class PersistGate extends React.Component<{}, IPersistGateState> {
   public state: IPersistGateState = {rehydrating: true}
@@ -50,7 +53,21 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
     return (
       <Provider store={store}>
         <Setup ethereum={this.state.ethereum} header="Sign In">
-          {setupProps => <App firstName="Bowser" address={setupProps.ethAddress} />}
+          {setupProps => (
+            <BrowserRouter>
+              <div>
+                <Route
+                  exact
+                  path="/"
+                  component={() => (
+                    /* tslint:disable-next-line */
+                    <App firstName="Bowser" address={setupProps.ethAddress} />
+                  )}
+                />
+                <Route exact path="/archive" component={Archive} />
+              </div>
+            </BrowserRouter>
+          )}
         </Setup>
       </Provider>
     )

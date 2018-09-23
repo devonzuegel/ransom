@@ -1,5 +1,6 @@
 import * as DateFns from 'date-fns'
 import * as React from 'react'
+import {Link} from 'react-router-dom'
 import {clearUser, getPersonInStorage, IPerson, setPersonInStorage} from './api'
 
 class Notes extends React.Component<{user: IPerson}> {
@@ -28,8 +29,12 @@ const Navbar = (props: {
 }) => (
   <header className="navbar">
     <section className="navbar-section">
-      <a className="btn btn-link">Write</a>
-      <a className="btn btn-link">Archive</a>
+      <Link to="/" className="btn btn-link">
+        Write
+      </Link>
+      <Link to="/archive" className="btn btn-link">
+        Archive
+      </Link>
     </section>
 
     <div className="popover popover-bottom">
