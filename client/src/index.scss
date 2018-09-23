@@ -52,3 +52,7 @@ html {
   text-align: left;
   height: fit-content;
 }
+
+.accordion label:hover {
+  cursor: pointer;
+}

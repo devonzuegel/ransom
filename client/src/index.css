@@ -3278,3 +3278,6 @@ html {
   align-self: baseline;
   text-align: left;
   height: fit-content; }
+
+.accordion label:hover {
+  cursor: pointer; }

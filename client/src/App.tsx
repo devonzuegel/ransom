@@ -91,42 +91,26 @@ const NewPost = (props: {
   </div>
 )
 
-class LocalStorageViewer extends React.Component<
-  {address: string},
-  {expanded: boolean}
-> {
-  public state = {expanded: false}
+const LocalStorageViewer = (props: {address: string}) => (
+  <div>
+    <br />
 
-  public render() {
-    return (
-      <div>
-        <br />
-        <button className="btn" onClick={this.toggleExpanded}>
-          {this.state.expanded ? 'Hide local storage' : 'Show local storage'}
-        </button>
-
-        {this.state.expanded && (
-          <div className="code">
-            <pre
-              className="pre local-storage code"
-              data-lang="JSON"
-              style={{textAlign: 'left'}}>
-              <code>
-                {JSON.stringify(
-                  {person: getPersonInStorage(this.props.address)},
-                  null,
-                  2
-                )}
-              </code>
-            </pre>
-          </div>
-        )}
+    <div className="accordion">
+      <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden />
+      <label className="accordion-header" htmlFor="accordion-1">
+        <i className="icon icon-arrow-right mr-1" />
+        Local storage
+      </label>
+      <div className="accordion-body">
+        <pre className="pre local-storage code" data-lang="JSON">
+          <code>
+            {JSON.stringify({person: getPersonInStorage(props.address)}, null, 2)}
+          </code>
+        </pre>
       </div>
-    )
-  }
-
-  public toggleExpanded = () => this.setState({expanded: !this.state.expanded})
-}
+    </div>
+  </div>
+)
 
 class App extends React.Component<
   {address: string; firstName: string},
