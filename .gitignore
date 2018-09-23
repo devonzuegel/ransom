@@ -3,3 +3,6 @@ build/
 spectre-reference/
 .env
 coverage
+
+error.log
+combined.log
