@@ -1,7 +1,6 @@
 import * as DateFns from 'date-fns'
 import * as React from 'react'
-import {clearUser, getPersonInStorage, IPerson, setPersonInStorage} from './api'
-import Navbar from './components/Navbar'
+import {getPersonInStorage, IPerson, setPersonInStorage} from './api'
 
 class Notes extends React.Component<{user: IPerson}> {
   public render() {
@@ -76,9 +75,7 @@ class App extends React.Component<
   public render() {
     const user = this.currentUser()
     return (
-      <div className="container">
-        <Navbar {...this.props} clearStorage={this.clearStorage} />
-
+      <div>
         <div className="columns">
           <div className="column col-6">
             {this.currentUser() ? (
@@ -152,10 +149,10 @@ class App extends React.Component<
     this.updateView()
   }
 
-  private clearStorage = () => {
-    clearUser(this.props.address)
-    this.updateView()
-  }
+  // private clearStorage = () => {
+  //   clearUser(this.props.address)
+  //   this.updateView()
+  // }
 }
 
 export default App

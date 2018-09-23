@@ -63,28 +63,37 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
     return (
       <Provider store={store}>
         <Setup ethereum={this.state.ethereum} header="Sign In">
-          {setupProps => (
-            <BrowserRouter>
-              <>
-                <Route
-                  exact
-                  path="/"
-                  component={() => (
-                    /* tslint:disable-next-line */
-                    <App firstName="Bowser" address={setupProps.ethAddress} />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/archive"
-                  component={() => (
-                    /* tslint:disable-next-line */
-                    <Archive firstName="Bowser" address={setupProps.ethAddress} />
-                  )}
-                />
-              </>
-            </BrowserRouter>
-          )}
+          {setupProps => {
+            const clearStorage = () => clearUser(setupProps.ethAddress)
+            return (
+              <BrowserRouter>
+                <div className="container">
+                  <Navbar
+                    {...this.props}
+                    clearStorage={clearStorage}
+                    address={setupProps.ethAddress}
+                    firstName="Bowser"
+                  />
+                  <Route
+                    exact
+                    path="/"
+                    component={() => (
+                      /* tslint:disable-next-line */
+                      <App firstName="Bowser" address={setupProps.ethAddress} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/archive"
+                    component={() => (
+                      /* tslint:disable-next-line */
+                      <Archive firstName="Bowser" address={setupProps.ethAddress} />
+                    )}
+                  />
+                </div>
+              </BrowserRouter>
+            )
+          }}
         </Setup>
       </Provider>
     )
