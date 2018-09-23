@@ -27,15 +27,11 @@ interface IPersistGateState {
 
 const Loading = () => <div>Loading</div>
 
-const Archive = (props: {address: string; firstName: string}) => {
-  const clearStorage = () => clearUser(props.address)
-  return (
-    <>
-      <Navbar {...props} clearStorage={clearStorage} />
-      <code>TODO</code>
-    </>
-  )
-}
+const Archive = (props: {address: string; firstName: string}) => (
+  <div>
+    <code>TODO</code>
+  </div>
+)
 
 class PersistGate extends React.Component<{}, IPersistGateState> {
   public state: IPersistGateState = {rehydrating: true}
@@ -74,22 +70,27 @@ class PersistGate extends React.Component<{}, IPersistGateState> {
                     address={setupProps.ethAddress}
                     firstName="Bowser"
                   />
-                  <Route
-                    exact
-                    path="/"
-                    component={() => (
-                      /* tslint:disable-next-line */
-                      <App firstName="Bowser" address={setupProps.ethAddress} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/archive"
-                    component={() => (
-                      /* tslint:disable-next-line */
-                      <Archive firstName="Bowser" address={setupProps.ethAddress} />
-                    )}
-                  />
+                  <div className="main-content">
+                    <Route
+                      exact
+                      path="/"
+                      component={() => (
+                        /* tslint:disable-next-line */
+                        <App firstName="Bowser" address={setupProps.ethAddress} />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/archive"
+                      component={() => (
+                        /* tslint:disable-next-line */
+                        <Archive
+                          firstName="Bowser"
+                          address={setupProps.ethAddress}
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
               </BrowserRouter>
             )

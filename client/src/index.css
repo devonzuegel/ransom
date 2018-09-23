@@ -3281,3 +3281,6 @@ html {
 
 .accordion label:hover {
   cursor: pointer; }
+
+.main-content {
+  padding: 1em 0.25rem 0.4rem; }
