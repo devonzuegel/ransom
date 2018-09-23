@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {getPersonInStorage, setPersonInStorage} from '../../api'
+import {defaultSettings} from '../Settings'
 
 const NewPost = (props: {
   submitOnEnter: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
@@ -91,7 +92,11 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
   }
 
   private signup = () => {
-    setPersonInStorage({address: this.props.address, notes: []})
+    setPersonInStorage({
+      address: this.props.address,
+      notes: [],
+      settings: defaultSettings,
+    })
     this.updateView()
   }
 
@@ -113,13 +118,8 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
     }
     const user = {
       address: this.props.address,
-      notes: [
-        ...retrieved.notes,
-        {
-          content: this.state.note,
-          createdAt: new Date(),
-        },
-      ],
+      notes: [...retrieved.notes, {content: this.state.note, createdAt: new Date()}],
+      settings: retrieved.settings,
     }
     setPersonInStorage(user)
     this.updateView()

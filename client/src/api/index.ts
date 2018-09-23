@@ -52,7 +52,13 @@ export interface INote {
   content: string
 }
 
+export interface ISettings {
+  costPerMiss: number
+  notesPerWeek: number
+}
+
 export interface IPerson {
   address: string
   notes: INote[]
+  settings: ISettings
 }

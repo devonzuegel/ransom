@@ -1,11 +1,11 @@
 import * as React from 'react'
-import {getPersonInStorage, setPersonInStorage} from '../../api'
+import {getPersonInStorage, ISettings, setPersonInStorage} from '../../api'
 
-class Settings extends React.Component<
-  {address: string},
-  {costPerMiss: number; notesPerWeek: number}
-> {
-  public state = {costPerMiss: 500, notesPerWeek: 2}
+export const defaultSettings = {costPerMiss: 500, notesPerWeek: 2}
+
+class Settings extends React.Component<{address: string}, ISettings> {
+  public state = defaultSettings
+
   public render() {
     const user = this.currentUser()
     if (user === undefined) {
@@ -28,7 +28,6 @@ class Settings extends React.Component<
     <div className="input-group input-inline">
       <input
         className="form-input"
-        onKeyDown={this.submitOnEnter}
         type="number"
         value={this.state.notesPerWeek}
         onChange={this.onAttributeChange('notesPerWeek')}
@@ -40,7 +39,6 @@ class Settings extends React.Component<
     <div className="input-group input-inline">
       <input
         className="form-input"
-        onKeyDown={this.submitOnEnter}
         type="number"
         value={this.state.costPerMiss}
         onChange={this.onAttributeChange('costPerMiss')}
@@ -52,12 +50,6 @@ class Settings extends React.Component<
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     this.setState({...this.state, [attributeName]: Number(event.target.value)})
-  }
-
-  private submitOnEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.keyCode === 13 && e.metaKey) {
-      // TODO:
-    }
   }
 
   private updateSettings = () => {
