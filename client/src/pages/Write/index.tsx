@@ -19,6 +19,7 @@ const NewPost = (props: {
       </div>
     </div>
     <br />
+
     <button className="btn btn-primary" onClick={props.persistNote}>
       Submit note
     </button>
@@ -122,6 +123,9 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
     }
     setPersonInStorage(user)
     this.updateView()
+
+    // TODO: Make this nicer
+    alert('Congrats on submitting a post! You can go see it on the archive page')
   }
 }
 
