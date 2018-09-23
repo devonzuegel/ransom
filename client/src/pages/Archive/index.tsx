@@ -5,19 +5,20 @@ import {getPersonInStorage} from '../../api'
 class Notes extends React.Component<{address: string}> {
   public render() {
     const user = this.currentUser()
+    if (user === undefined) {
+      return 'Please sign in'
+    }
     return (
-      user && (
-        <div>
-          {user.notes.map((note, i) => (
-            <div key={i}>
-              <div className="label">
-                {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
-              </div>
-              <p>{note.content}</p>
+      <div>
+        {user.notes.map((note, i) => (
+          <div key={i}>
+            <div className="label">
+              {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
             </div>
-          ))}
-        </div>
-      )
+            <p>{note.content}</p>
+          </div>
+        ))}
+      </div>
     )
   }
 
