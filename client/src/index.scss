@@ -47,16 +47,6 @@ html {
   flex-direction: column;
 }
 
-.column .local-storage {
-  align-self: baseline;
-  text-align: left;
-  height: fit-content;
-}
-
-.accordion label:hover {
-  cursor: pointer;
-}
-
 .main-content {
   padding: 1em 0.25rem 0.4rem;
 }

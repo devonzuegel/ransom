@@ -27,25 +27,6 @@ const NewPost = (props: {
   </div>
 )
 
-const LocalStorageViewer = (props: {address: string}) => (
-  <div>
-    <br />
-
-    <div className="accordion">
-      <input type="checkbox" id="accordion-1" name="accordion-checkbox" hidden />
-      <label className="accordion-header" htmlFor="accordion-1">
-        <i className="icon icon-arrow-right mr-1" />
-        Local storage
-      </label>
-      <div className="accordion-body">
-        <pre className="pre local-storage code" data-lang="JSON">
-          <code>{JSON.stringify({person: getPerson(props.address)}, null, 2)}</code>
-        </pre>
-      </div>
-    </div>
-  </div>
-)
-
 class App extends React.Component<{address: string}, {note: string; user: any}> {
   public state = {note: '', user: undefined}
 
@@ -65,9 +46,6 @@ class App extends React.Component<{address: string}, {note: string; user: any}> 
                 Sign up
               </button>
             )}
-          </div>
-          <div className="column col-6 main-right-column">
-            <LocalStorageViewer {...this.props} />
           </div>
         </div>
       </div>
