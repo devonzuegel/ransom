@@ -19,7 +19,8 @@ export const env = {
   DATABASE_URL: environmentVariable('DATABASE_URL'),
 }
 
-const client = new pg.Client(env.DATABASE_URL)
+// TODO: Inject client and make users agnostic to db
+export const client = new pg.Client(env.DATABASE_URL)
 client.connect().catch(e => {
   console.error(
     `Could not connect to database [${env.DATABASE_URL || process.env.DATABASE_URL}]`
@@ -41,6 +42,16 @@ export const getUser = async (ethAddress: string) => {
     `SELECT * from users where address = '${ethAddress}';`
   )
   return result.rows
+}
+
+export const updateUserData = async (ethAddress: string) => {
+  console.log(`Updating user with ethAddress ${ethAddress}`)
+  const result = await client.query(
+    `UPDATE "public"."users" SET "data" = ` +
+      `'{"notes": [{"content": "updated again!", "createdAt": "2018-09-22 20:50:31.016282"},{"content": "xxxx", "createdAt": "2018-09-22 20:52:31.016282"}], "address": "0x9cbe5b896d0c24acf41860b9e3df6750c2040a40", "settings": {"costPerMiss": 500, "notesPerWeek": 2}}' ` +
+      `WHERE "address" = '${ethAddress}';`
+  )
+  console.log(result)
 }
 
 export const addUser = async (
