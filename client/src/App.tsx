@@ -21,6 +21,76 @@ class Notes extends React.Component<{user: IPerson}> {
   }
 }
 
+const Navbar = (props: {
+  address: string
+  firstName: string
+  clearStorage: () => void
+}) => (
+  <header className="navbar">
+    <section className="navbar-section">
+      <a className="btn btn-link">Write</a>
+      <a className="btn btn-link">Archive</a>
+    </section>
+
+    <div className="popover popover-bottom">
+      <div className="tile tile-centered">
+        <div className="tile-icon">
+          <div className="example-tile-icon">
+            <i className="icon icon-people icon-2x centered" />
+          </div>
+        </div>
+        <div className="tile-content">
+          <div className="tile-title">Hello, {props.firstName}!</div>
+          <div className="tile-subtitle text-gray subtext-code">
+            {props.address.substr(0, 6)}
+            ..
+            {props.address.substr(props.address.length - 4, 4)}
+          </div>
+        </div>
+      </div>
+
+      <div className="popover-container account-info">
+        <div className="card">
+          <div className="card-body">
+            Signed in as: <code>{props.address}</code>
+          </div>
+          <div className="card-body">
+            <button
+              className="btn btn-sm btn-primary input-group-btn"
+              onClick={props.clearStorage}>
+              Clear storage
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+)
+
+const NewPost = (props: {
+  submitOnEnter: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void
+  onNoteChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+  persistNote: () => void
+}) => (
+  <div>
+    <p>Write or paste your note here</p>
+    <div className="form-group">
+      <div className="input-group">
+        <textarea
+          className="form-input"
+          autoFocus
+          onKeyDown={props.submitOnEnter}
+          onChange={props.onNoteChange}
+        />
+      </div>
+    </div>
+    <br />
+    <button className="btn" onClick={props.persistNote}>
+      Submit note
+    </button>
+  </div>
+)
+
 class App extends React.Component<
   {address: string; firstName: string},
   {note: string; user: any}
@@ -31,70 +101,21 @@ class App extends React.Component<
     const user = this.currentUser()
     return (
       <div className="container">
-        <header className="navbar">
-          <section className="navbar-section">
-            <a className="btn btn-link">Write</a>
-            <a className="btn btn-link">Archive</a>
-          </section>
-
-          <div className="popover popover-bottom">
-            <div className="tile tile-centered">
-              <div className="tile-icon">
-                <div className="example-tile-icon">
-                  <i className="icon icon-people icon-2x centered" />
-                </div>
-              </div>
-              <div className="tile-content">
-                <div className="tile-title">Hello, {this.props.firstName}!</div>
-                <div className="tile-subtitle text-gray subtext-code">
-                  {this.props.address.substr(0, 6)}
-                  ..
-                  {this.props.address.substr(this.props.address.length - 4, 4)}
-                </div>
-              </div>
-            </div>
-
-            <div className="popover-container account-info">
-              <div className="card">
-                <div className="card-body">
-                  Signed in as: <code>{this.props.address}</code>
-                </div>
-                <div className="card-body">
-                  <button
-                    className="btn btn-sm btn-primary input-group-btn"
-                    onClick={this.clearStorage}>
-                    Clear storage
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Navbar {...this.props} clearStorage={this.clearStorage} />
 
         <div className="columns">
           <div className="column col-6">
-            <p>Write or paste your note here</p>
-            <div className="form-group">
-              <div className="input-group">
-                <textarea
-                  className="form-input"
-                  autoFocus
-                  onKeyDown={this.submitOnEnter}
-                  onChange={this.onNoteChange}
-                />
-              </div>
-
-              <br />
-              {this.currentUser() ? (
-                <button className="btn" onClick={this.persistNote}>
-                  Submit note
-                </button>
-              ) : (
-                <button className="btn" onClick={this.signup}>
-                  Sign up
-                </button>
-              )}
-            </div>
+            {this.currentUser() ? (
+              <NewPost
+                submitOnEnter={this.submitOnEnter}
+                onNoteChange={this.onNoteChange}
+                persistNote={this.persistNote}
+              />
+            ) : (
+              <button className="btn" onClick={this.signup}>
+                Sign up
+              </button>
+            )}
           </div>
           <div className="column col-6 main-right-column">
             {user && <Notes user={user} />}
