@@ -1,5 +1,6 @@
 import * as DateFns from 'date-fns'
 import * as React from 'react'
+import {Link} from 'react-router-dom'
 import {getPersonInStorage} from '../../api'
 
 class Notes extends React.Component<{address: string}> {
@@ -8,14 +9,35 @@ class Notes extends React.Component<{address: string}> {
     if (user === undefined) {
       return 'Please sign in'
     }
+    if (user.notes.length === 0) {
+      return (
+        <div className="empty">
+          <div className="empty-icon">
+            <i className="icon icon-emoji icon-3x" />
+          </div>
+          <p className="empty-title h5">You have no notes yet</p>
+          <div className="empty-action">
+            <Link to="/" className="btn btn-primary">
+              Go write one!
+            </Link>
+          </div>
+        </div>
+      )
+    }
     return (
-      <div>
+      // TODO: Separate by challenge time periods
+      <div className="columns notes">
         {user.notes.map((note, i) => (
-          <div key={i}>
-            <div className="label">
-              {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
+          <div key={i} className="column col-6 col-xs-12">
+            <div className="card">
+              <div className="card-header">
+                {/* <div className="card-title h5">...</div> */}
+                <div className="card-subtitle text-gray">
+                  {DateFns.format(new Date(note.createdAt), 'D MMM YYYY, HH:mm')}
+                </div>
+              </div>
+              <div className="card-body">{note.content}</div>
             </div>
-            <p>{note.content}</p>
           </div>
         ))}
       </div>
