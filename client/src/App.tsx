@@ -85,11 +85,48 @@ const NewPost = (props: {
       </div>
     </div>
     <br />
-    <button className="btn" onClick={props.persistNote}>
+    <button className="btn btn-primary" onClick={props.persistNote}>
       Submit note
     </button>
   </div>
 )
+
+class LocalStorageViewer extends React.Component<
+  {address: string},
+  {expanded: boolean}
+> {
+  public state = {expanded: false}
+
+  public render() {
+    return (
+      <div>
+        <br />
+        <button className="btn" onClick={this.toggleExpanded}>
+          {this.state.expanded ? 'Hide local storage' : 'Show local storage'}
+        </button>
+
+        {this.state.expanded && (
+          <div className="code">
+            <pre
+              className="pre local-storage code"
+              data-lang="JSON"
+              style={{textAlign: 'left'}}>
+              <code>
+                {JSON.stringify(
+                  {person: getPersonInStorage(this.props.address)},
+                  null,
+                  2
+                )}
+              </code>
+            </pre>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  public toggleExpanded = () => this.setState({expanded: !this.state.expanded})
+}
 
 class App extends React.Component<
   {address: string; firstName: string},
@@ -112,20 +149,14 @@ class App extends React.Component<
                 persistNote={this.persistNote}
               />
             ) : (
-              <button className="btn" onClick={this.signup}>
+              <button className="btn btn-primary" onClick={this.signup}>
                 Sign up
               </button>
             )}
+            <LocalStorageViewer {...this.props} />
           </div>
           <div className="column col-6 main-right-column">
             {user && <Notes user={user} />}
-            <pre className="pre local-storage" style={{textAlign: 'left'}}>
-              {JSON.stringify(
-                {person: getPersonInStorage(this.props.address)},
-                null,
-                2
-              )}
-            </pre>
           </div>
         </div>
       </div>

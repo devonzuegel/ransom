@@ -3277,5 +3277,4 @@ html {
 .column .local-storage {
   align-self: baseline;
   text-align: left;
-  height: fit-content;
-  border: 3px solid blue; }
+  height: fit-content; }
