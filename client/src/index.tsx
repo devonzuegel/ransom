@@ -8,8 +8,8 @@ import {clearUser} from './api'
 import Navbar from './components/Navbar'
 import {Setup} from './components/Setup'
 import {Ethereum} from './Ethereum'
+import Write from './pages/Write'
 import store from './redux/store'
-import Write from './Write'
 
 import './index.css'
 

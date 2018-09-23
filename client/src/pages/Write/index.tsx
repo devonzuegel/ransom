@@ -1,6 +1,6 @@
 import * as DateFns from 'date-fns'
 import * as React from 'react'
-import {getPersonInStorage, IPerson, setPersonInStorage} from './api'
+import {getPersonInStorage, IPerson, setPersonInStorage} from '../../api'
 
 class Notes extends React.Component<{user: IPerson}> {
   public render() {
