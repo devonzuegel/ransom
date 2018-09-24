@@ -14,7 +14,8 @@ export const settleUp = async () => {
     const completedNotes = (await client.query(
       `SELECT * FROM notes WHERE ` +
         `"createdAt" >= '${formatDateForSql(challenge.createdAt)}' AND` +
-        `"createdAt" <= '${formatDateForSql(challenge.dueAt)}';`
+        `"createdAt" <= '${formatDateForSql(challenge.dueAt)}' AND ` +
+        `LENGTH("content") >= ${challenge.numWords};`
     )).rows
 
     const numCommitted = challenge.numNotes

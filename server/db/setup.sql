@@ -51,7 +51,6 @@ IF NOT EXISTS transactions
     -- TODO: Validate this more strictly
     "id" uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     "createdAt" timestamptz DEFAULT now() NOT NULL,
-    "updatedAt" timestamptz DEFAULT now() NOT NULL,
 
     "userAddress" VARCHAR NOT NULL references users(address),
     "numNotes" integer DEFAULT 2 NOT NULL,
