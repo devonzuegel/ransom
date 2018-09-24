@@ -1,3 +1,0 @@
-#!/bin/bash
-
-bin/ts-node bin/jobs/sayHello.ts

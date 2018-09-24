@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bin/ts-node bin/jobs/settleUp.ts

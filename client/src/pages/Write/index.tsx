@@ -30,7 +30,12 @@ const NewPost = (props: {
 
 // TODO: Use IChallenge from shared (requires ejecting)
 export interface IChallenge {
+  createdAt: Date
   dueAt: Date
+  numNotes: number
+  numWords: number
+  centsPerMissedNote: number
+  settled: number
 }
 
 interface IActiveChallengesState {

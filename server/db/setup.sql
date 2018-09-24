@@ -41,7 +41,8 @@ IF NOT EXISTS challenges
     "dueAt" timestamptz NOT NULL,
     "numNotes" integer DEFAULT 2 NOT NULL,
     "numWords" integer DEFAULT 500 NOT NULL,
-    "centsPerMissedNote" integer DEFAULT 500 NOT NULL
+    "centsPerMissedNote" integer DEFAULT 500 NOT NULL,
+    "settled" boolean DEFAULT false NOT NULL
 );
 
 CREATE TABLE
