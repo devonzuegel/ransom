@@ -36,6 +36,7 @@ export interface IChallenge {
   numWords: number
   centsPerMissedNote: number
   settled: number
+  userAddress: string
 }
 
 interface IActiveChallengesState {

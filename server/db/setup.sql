@@ -53,7 +53,6 @@ IF NOT EXISTS transactions
     "createdAt" timestamptz DEFAULT now() NOT NULL,
 
     "userAddress" VARCHAR NOT NULL references users(address),
-    "numNotes" integer DEFAULT 2 NOT NULL,
     "centsOwed" integer NOT NULL,
     "description" text NOT NULL
 );
